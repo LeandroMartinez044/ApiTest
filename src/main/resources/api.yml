@@ -1,0 +1,84 @@
+swagger: "2.0"
+info:
+  description: Project to perform operation on customer records
+  title : customerOperation
+  version: 1.0.0
+
+paths:
+  "/customer/{customer_id}":
+    get:
+      tags:
+        - Customer
+      summary: "API to get customer by Id"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: "customer details"
+          schema:
+            $ref: "#/definitions/customer_dto"
+        "400":
+          description: "error detail in case of Bad request"
+          schema:
+            $ref: "#/definitions/error"
+        "500":
+          description: "error detail in case of server error"
+          schema:
+            $ref: "#/definitions/error"
+      operationId: getCustomer
+      parameters:
+        - in: path
+          name: customer_id
+          type: integer
+          required: true
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: unlimited
+
+  "/customer":
+    post:
+      tags:
+        - Customer Detail
+      summary: "API to create customer by Id"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: "customer details"
+        "400":
+          description: "error detail in case of Bad request"
+          schema:
+            $ref: "#/definitions/error"
+        "500":
+          description: "error detail in case of server error"
+          schema:
+            $ref: "#/definitions/error"
+      operationId: createCustomer
+      parameters:
+        - in: body
+          name: customer
+          schema:
+            $ref: "#/definitions/customer_dto"
+          required: true
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: unlimited
+
+definitions:
+  error:
+    properties:
+      error_description:
+        description: Error Description
+        type: string
+      error:
+        description: Error Code
+        type: string
+  customer_dto:
+    properties:
+      name:
+        description: customer name
+        type: string
+      last_name:
+        description: customer last name
+        type: string
+      email:
+        description: email of Customer
+        type: string
